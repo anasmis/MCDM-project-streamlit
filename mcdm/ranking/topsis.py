@@ -16,7 +16,15 @@ class TOPSIS:
         distance_worst = np.linalg.norm(weighted - worst, axis=1)
         total = distance_best + distance_worst
         scores = np.divide(distance_worst, total, out=np.full_like(total, 0.5), where=total > 0)
-        return RankingResult("TOPSIS", scores, normalized, weighted, {
-            "ideal_best": best, "ideal_worst": worst,
-            "distance_best": distance_best, "distance_worst": distance_worst,
-        })
+        return RankingResult(
+            "TOPSIS",
+            scores,
+            normalized,
+            weighted,
+            {
+                "ideal_best": best,
+                "ideal_worst": worst,
+                "distance_best": distance_best,
+                "distance_worst": distance_worst,
+            },
+        )

@@ -9,7 +9,10 @@ from mcdm.ranking import TOPSIS, WSM
 def recommend_weighting(problem: DecisionProblem, preference: str) -> tuple[str, str]:
     if preference == "subjective":
         if len(problem.criteria) > 5:
-            return "BWM", "Avec plus de cinq critères, BWM réduit le nombre de comparaisons à saisir."
+            return (
+                "BWM",
+                "Avec plus de cinq critères, BWM réduit le nombre de comparaisons à saisir.",
+            )
         return "AHP", "AHP permet de comparer chaque paire de critères et de vérifier la cohérence."
     if len(problem.alternatives) < 4:
         return "Entropie", (
@@ -21,16 +24,27 @@ def recommend_weighting(problem: DecisionProblem, preference: str) -> tuple[str,
 
 def compare_rankings(problem: DecisionProblem, weights: ArrayLike) -> pd.DataFrame:
     wsm, topsis = WSM().compute(problem, weights), TOPSIS().compute(problem, weights)
-    return pd.DataFrame({
-        "Alternative": problem.alternatives,
-        "Rang WSM": wsm.ranks, "Score WSM": wsm.scores,
-        "Rang TOPSIS": topsis.ranks, "Score TOPSIS": topsis.scores,
-        "Écart de rang": topsis.ranks - wsm.ranks,
-    }).sort_values("Rang WSM", kind="stable").reset_index(drop=True)
+    return (
+        pd.DataFrame(
+            {
+                "Alternative": problem.alternatives,
+                "Rang WSM": wsm.ranks,
+                "Score WSM": wsm.scores,
+                "Rang TOPSIS": topsis.ranks,
+                "Score TOPSIS": topsis.scores,
+                "Écart de rang": topsis.ranks - wsm.ranks,
+            }
+        )
+        .sort_values("Rang WSM", kind="stable")
+        .reset_index(drop=True)
+    )
 
 
 def sensitivity(
-    problem: DecisionProblem, weights: ArrayLike, method: str, criterion: int,
+    problem: DecisionProblem,
+    weights: ArrayLike,
+    method: str,
+    criterion: int,
     variations: ArrayLike = (-0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.3),
 ) -> pd.DataFrame:
     weights = validate_weights(weights, len(problem.criteria))
@@ -49,9 +63,13 @@ def sensitivity(
         adjusted /= adjusted.sum()
         result = model.compute(problem, adjusted)
         for i, name in enumerate(problem.alternatives):
-            rows.append({
-                "Variation (%)": float(variation * 100), "Alternative": name,
-                "Rang": int(result.ranks[i]), "Score": float(result.scores[i]),
-                "Poids du critère": float(adjusted[criterion]),
-            })
+            rows.append(
+                {
+                    "Variation (%)": float(variation * 100),
+                    "Alternative": name,
+                    "Rang": int(result.ranks[i]),
+                    "Score": float(result.scores[i]),
+                    "Poids du critère": float(adjusted[criterion]),
+                }
+            )
     return pd.DataFrame(rows)

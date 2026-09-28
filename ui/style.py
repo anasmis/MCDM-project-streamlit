@@ -12,7 +12,7 @@ def apply_style() -> None:
 def heading(eyebrow: str, title: str, description: str) -> None:
     st.markdown(
         f'<div class="page-heading"><div class="eyebrow">{html.escape(eyebrow)}</div>'
-        f'<h1>{html.escape(title)}</h1><p>{html.escape(description)}</p></div>',
+        f"<h1>{html.escape(title)}</h1><p>{html.escape(description)}</p></div>",
         unsafe_allow_html=True,
     )
 
@@ -20,5 +20,6 @@ def heading(eyebrow: str, title: str, description: str) -> None:
 def note(label: str, text: str) -> None:
     st.markdown(
         f'<div class="editorial-note"><div class="eyebrow">{html.escape(label)}</div>'
-        f'<p>{html.escape(text)}</p></div>', unsafe_allow_html=True,
+        f"<p>{html.escape(text)}</p></div>",
+        unsafe_allow_html=True,
     )

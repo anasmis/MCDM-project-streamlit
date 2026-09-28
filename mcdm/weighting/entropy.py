@@ -8,7 +8,9 @@ class Entropy:
     def compute(self, problem: DecisionProblem) -> WeightingResult:
         normalized, active = minmax(problem)
         if not active.any():
-            raise ValueError("Tous les critères sont constants : l'entropie ne peut pas les pondérer.")
+            raise ValueError(
+                "Tous les critères sont constants : l'entropie ne peut pas les pondérer."
+            )
         proportions = normalized / normalized.sum(axis=0)
         logarithms = np.zeros_like(proportions)
         np.log(proportions, out=logarithms, where=proportions > 0)
@@ -18,7 +20,14 @@ class Entropy:
         warnings = []
         if not active.all():
             warnings.append("Les critères constants reçoivent un poids nul.")
-        return WeightingResult("Entropie", divergence / divergence.sum(), {
-            "normalized_matrix": normalized, "proportions": proportions,
-            "entropy": entropy, "divergence": divergence,
-        }, warnings)
+        return WeightingResult(
+            "Entropie",
+            divergence / divergence.sum(),
+            {
+                "normalized_matrix": normalized,
+                "proportions": proportions,
+                "entropy": entropy,
+                "divergence": divergence,
+            },
+            warnings,
+        )

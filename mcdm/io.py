@@ -16,20 +16,40 @@ def example_problem() -> DecisionProblem:
     return DecisionProblem(
         "Choisir un fournisseur",
         ("Atlas", "Boréal", "Cèdre", "Dune", "Estuaire"),
-        (Criterion("Coût", "min", "k€"), Criterion("Qualité", "max", "/100"),
-         Criterion("Délai", "min", "jours"), Criterion("Responsabilité", "max", "/100")),
-        np.array([[42, 86, 12, 75], [38, 78, 16, 88], [47, 94, 10, 82],
-                  [35, 72, 20, 65], [44, 89, 14, 93]], dtype=float),
+        (
+            Criterion("Coût", "min", "k€"),
+            Criterion("Qualité", "max", "/100"),
+            Criterion("Délai", "min", "jours"),
+            Criterion("Responsabilité", "max", "/100"),
+        ),
+        np.array(
+            [
+                [42, 86, 12, 75],
+                [38, 78, 16, 88],
+                [47, 94, 10, 82],
+                [35, 72, 20, 65],
+                [44, 89, 14, 93],
+            ],
+            dtype=float,
+        ),
         "Sélectionner un partenaire pour le prochain contrat d'approvisionnement.",
     )
 
 
 def problem_to_json(problem: DecisionProblem) -> str:
-    return json.dumps({
-        "version": 1, "name": problem.name, "description": problem.description,
-        "alternatives": problem.alternatives,
-        "criteria": [asdict(c) for c in problem.criteria], "matrix": problem.matrix.tolist(),
-    }, ensure_ascii=False, indent=2, allow_nan=False)
+    return json.dumps(
+        {
+            "version": 1,
+            "name": problem.name,
+            "description": problem.description,
+            "alternatives": problem.alternatives,
+            "criteria": [asdict(c) for c in problem.criteria],
+            "matrix": problem.matrix.tolist(),
+        },
+        ensure_ascii=False,
+        indent=2,
+        allow_nan=False,
+    )
 
 
 def problem_from_json(content: str | bytes) -> DecisionProblem:
@@ -38,9 +58,11 @@ def problem_from_json(content: str | bytes) -> DecisionProblem:
         if not isinstance(data, dict) or data.get("version") != 1:
             raise ValueError("Version du fichier de problème non reconnue.")
         return DecisionProblem(
-            name=data["name"], description=data.get("description", ""),
+            name=data["name"],
+            description=data.get("description", ""),
             alternatives=tuple(data["alternatives"]),
-            criteria=tuple(Criterion(**c) for c in data["criteria"]), matrix=data["matrix"],
+            criteria=tuple(Criterion(**c) for c in data["criteria"]),
+            matrix=data["matrix"],
         )
     except (KeyError, TypeError, json.JSONDecodeError, UnicodeDecodeError) as exc:
         raise ValueError("Le fichier JSON ne contient pas un problème valide.") from exc
@@ -62,7 +84,8 @@ def matrix_from_csv(content: bytes) -> pd.DataFrame:
             raise ValueError("« Alternative » est réservé à la première colonne.")
         for column in frame.columns[1:]:
             frame[column] = pd.to_numeric(
-                frame[column].str.strip().str.replace(",", ".", regex=False), errors="raise",
+                frame[column].str.strip().str.replace(",", ".", regex=False),
+                errors="raise",
             )
         if not np.isfinite(frame.iloc[:, 1:].to_numpy(dtype=float)).all():
             raise ValueError("Le CSV contient une performance vide ou non finie.")
@@ -73,7 +96,9 @@ def matrix_from_csv(content: bytes) -> pd.DataFrame:
             raise ValueError("Les noms des alternatives doivent être renseignés et uniques.")
         return frame
     except (UnicodeDecodeError, csv.Error, pd.errors.ParserError) as exc:
-        raise ValueError("Utilisez un CSV UTF-8 séparé par des virgules, points-virgules ou tabulations.") from exc
+        raise ValueError(
+            "Utilisez un CSV UTF-8 séparé par des virgules, points-virgules ou tabulations."
+        ) from exc
     except ValueError as exc:
         if "Unable to parse" in str(exc):
             raise ValueError("Toutes les performances du CSV doivent être numériques.") from exc
@@ -82,11 +107,13 @@ def matrix_from_csv(content: bytes) -> pd.DataFrame:
 
 def csv_bytes(frame: pd.DataFrame) -> bytes:
     safe = frame.copy()
-    for column in safe.select_dtypes(include=["object", "str"]).columns:
+    for column in safe.select_dtypes(include=["object", "string"]).columns:
         safe[column] = safe[column].map(
-            lambda value: "'" + value
-            if isinstance(value, str) and value.startswith(("=", "+", "-", "@", "\t", "\r"))
-            else value
+            lambda value: (
+                "'" + value
+                if isinstance(value, str) and value.startswith(("=", "+", "-", "@", "\t", "\r"))
+                else value
+            )
         )
     return safe.to_csv(index=False, sep=";", decimal=",").encode("utf-8-sig")
 
@@ -100,7 +127,9 @@ def _json_default(value: Any) -> Any:
 
 
 def export_bundle(
-    problem: DecisionProblem, weighting: WeightingResult, ranking: RankingResult,
+    problem: DecisionProblem,
+    weighting: WeightingResult,
+    ranking: RankingResult,
 ) -> bytes:
     output = io.BytesIO()
     weights = pd.DataFrame({"Critère": problem.criterion_names, "Poids": weighting.weights})
@@ -121,10 +150,15 @@ def export_bundle(
     audit = {"weighting": asdict(weighting), "ranking": asdict(ranking)}
     with zipfile.ZipFile(output, "w", zipfile.ZIP_DEFLATED) as archive:
         archive.writestr("probleme.json", problem_to_json(problem))
-        archive.writestr("performances.csv", csv_bytes(problem.to_frame().rename_axis("Alternative").reset_index()))
+        archive.writestr(
+            "performances.csv",
+            csv_bytes(problem.to_frame().rename_axis("Alternative").reset_index()),
+        )
         archive.writestr("poids.csv", csv_bytes(weights))
         archive.writestr("classement.csv", csv_bytes(table))
         archive.writestr("comparaison.csv", csv_bytes(compare_rankings(problem, weighting.weights)))
-        archive.writestr("calculs.json", json.dumps(audit, default=_json_default, ensure_ascii=False, indent=2))
+        archive.writestr(
+            "calculs.json", json.dumps(audit, default=_json_default, ensure_ascii=False, indent=2)
+        )
         archive.writestr("synthese.md", report)
     return output.getvalue()

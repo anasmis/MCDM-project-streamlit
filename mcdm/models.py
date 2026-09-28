@@ -102,11 +102,17 @@ class RankingResult:
         return rankdata(-np.round(self.scores, 12), method="min").astype(np.int64)
 
     def to_frame(self, alternatives: tuple[str, ...]) -> pd.DataFrame:
-        return pd.DataFrame({
-            "Rang": self.ranks,
-            "Alternative": alternatives,
-            "Score": self.scores,
-        }).sort_values("Rang", kind="stable").reset_index(drop=True)
+        return (
+            pd.DataFrame(
+                {
+                    "Rang": self.ranks,
+                    "Alternative": alternatives,
+                    "Score": self.scores,
+                }
+            )
+            .sort_values("Rang", kind="stable")
+            .reset_index(drop=True)
+        )
 
 
 def validate_weights(weights: ArrayLike, count: int) -> FloatArray:

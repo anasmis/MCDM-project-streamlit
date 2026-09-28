@@ -26,7 +26,14 @@ class CRITIC:
         warnings = []
         if not active.all():
             warnings.append("Les critères constants reçoivent un poids nul.")
-        return WeightingResult("CRITIC", information / information.sum(), {
-            "normalized_matrix": normalized, "standard_deviation": std,
-            "correlation": correlation, "information": information,
-        }, warnings)
+        return WeightingResult(
+            "CRITIC",
+            information / information.sum(),
+            {
+                "normalized_matrix": normalized,
+                "standard_deviation": std,
+                "correlation": correlation,
+                "information": information,
+            },
+            warnings,
+        )

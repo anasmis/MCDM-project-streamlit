@@ -27,7 +27,9 @@ pythonpath = ["."]
 
 [tool.ruff]
 line-length = 100
+extend-exclude = ["1.ipynb"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
 
