@@ -1,0 +1,35 @@
+:root { --ink: #24342d; --muted: #72796f; --line: #dce0d7; --green: #22634b; }
+.stApp { background: #faf9f6; }
+[data-testid="stHeader"] { background: transparent; }
+[data-testid="stMainBlockContainer"] { max-width: 1240px; padding-top: 2.8rem; padding-bottom: 3rem; }
+[data-testid="stSidebar"] { background: #edf0e9; border-right: 1px solid #dce0d7; }
+[data-testid="stSidebarUserContent"] { padding: 2.4rem 1.4rem; }
+.brand { font: 600 1.8rem Georgia, serif; letter-spacing: -.06em; color: var(--ink); }
+.brand-mark { display: inline-block; border: 1px solid #22634b; padding: 0 9px; margin-right: 9px; font: 500 1.65rem Georgia, serif; }
+.brand-sub { font-size: .68rem; text-transform: uppercase; letter-spacing: .16em; margin: .6rem 0 2.7rem; color: #657462; }
+.eyebrow { color: #657462; font-size: .68rem; font-weight: 650; letter-spacing: .16em; text-transform: uppercase; }
+.page-heading { padding: .3rem 0 1.55rem; margin-bottom: 1rem; border-bottom: 1px solid var(--line); }
+.page-heading h1 { font: 400 clamp(2.2rem, 4vw, 3.4rem)/1.12 Georgia, 'Times New Roman', serif; letter-spacing: -.045em; padding: .65rem 0 .8rem; color: var(--ink); }
+.page-heading p { font-size: .96rem; max-width: 690px; line-height: 1.6; color: #677064; margin: 0; }
+h2 { font-size: 1.3rem !important; font-weight: 600 !important; letter-spacing: -.035em; }
+h3 { font-size: 1.08rem !important; font-weight: 600 !important; }
+.editorial-note { border-left: 2px solid #78947b; padding: .2rem 0 .2rem 1rem; margin: .6rem 0 1.35rem; }
+.editorial-note p { font-size: .88rem; color: #566450; line-height: 1.65; margin: .6rem 0 0; }
+[data-testid="stMetricLabel"] { color: #697366; font-size: .75rem; }
+[data-testid="stMetricValue"] { font-family: Georgia, serif; font-weight: 400; }
+[data-testid="stButton"] button, [data-testid="stDownloadButton"] button { border-radius: 5px; min-height: 2.65rem; box-shadow: none; }
+[data-testid="stSidebar"] [data-testid="stButton"] button { justify-content: flex-start; text-align: left; }
+[data-testid="stVerticalBlockBorderWrapper"] > div { border-radius: 6px; }
+[data-testid="stTabs"] [data-baseweb="tab-list"] { gap: 1.7rem; border-bottom: 1px solid var(--line); }
+[data-testid="stTabs"] [data-baseweb="tab"] { padding-left: 0; padding-right: 0; }
+[data-testid="stExpander"] { background: #faf9f6; }
+.winner { padding: 1.5rem 1.8rem; border: 1px solid #c6d3c2; background: #edf2e9; margin: .4rem 0 1.5rem; }
+.winner h2 { font: 400 2.4rem Georgia, serif !important; margin: .6rem 0 .4rem; overflow-wrap: anywhere; }
+.winner p { margin: 0; color: #61735d; font-size: .85rem; }
+.footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding-top: .8rem; font-size: .7rem; color: #7a8175; }
+[data-testid="stDataFrame"] { border: 1px solid var(--line); border-radius: 4px; }
+@media (max-width: 700px) {
+  [data-testid="stMainBlockContainer"] { padding: 1.5rem 1rem 2rem; }
+  .page-heading h1 { font-size: 2.3rem; }
+  .winner { padding: 1rem; }
+}
