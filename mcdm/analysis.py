@@ -13,7 +13,7 @@ def recommend_weighting(problem: DecisionProblem, preference: str) -> tuple[str,
         return "AHP", "AHP permet de comparer chaque paire de critères et de vérifier la cohérence."
     if len(problem.alternatives) < 4:
         return "Entropie", (
-            "Avec peu d'alternatives, les corrélations de CRITIC sont fragiles. "
+            "Avec d'alternatives, les corrélations de CRITIC sont fragiles. "
             "L'entropie offre une lecture plus simple de la dispersion."
         )
     return "CRITIC", "CRITIC prend en compte la dispersion et la redondance entre les critères."
