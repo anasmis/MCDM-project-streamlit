@@ -242,7 +242,8 @@ def ahp_inputs(problem: DecisionProblem):
     )
     scale = [1 / n for n in range(9, 1, -1)] + list(range(1, 10))
     matrix = np.eye(len(names))
-    with st.container(height=360 if len(names) > 5 else None):
+    container = st.container(height=360) if len(names) > 5 else st.container()
+    with container:
         for i in range(len(names)):
             for j in range(i + 1, len(names)):
                 key = f"{i}_{j}"
