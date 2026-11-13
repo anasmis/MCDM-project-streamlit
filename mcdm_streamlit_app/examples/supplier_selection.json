@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "title": "Supplier selection",
+  "description": "",
+  "mode": "Crisp",
+  "alternatives": [
+    "Supplier A",
+    "Supplier B",
+    "Supplier C",
+    "Supplier D"
+  ],
+  "criteria": [
+    {
+      "name": "Price",
+      "direction": "Cost",
+      "weight": 1.0,
+      "unit": ""
+    },
+    {
+      "name": "Quality",
+      "direction": "Benefit",
+      "weight": 1.0,
+      "unit": ""
+    },
+    {
+      "name": "Delivery days",
+      "direction": "Cost",
+      "weight": 1.0,
+      "unit": ""
+    },
+    {
+      "name": "Sustainability",
+      "direction": "Benefit",
+      "weight": 1.0,
+      "unit": ""
+    }
+  ],
+  "values": [
+    [
+      "120",
+      "8",
+      "5",
+      "7"
+    ],
+    [
+      "100",
+      "7",
+      "8",
+      "8"
+    ],
+    [
+      "140",
+      "9",
+      "4",
+      "9"
+    ],
+    [
+      "110",
+      "8",
+      "6",
+      "6"
+    ]
+  ],
+  "scale": {
+    "Very low": [
+      1,
+      1,
+      3
+    ],
+    "Low": [
+      1,
+      3,
+      5
+    ],
+    "Medium": [
+      3,
+      5,
+      7
+    ],
+    "High": [
+      5,
+      7,
+      9
+    ],
+    "Very high": [
+      7,
+      9,
+      9
+    ]
+  },
+  "settings": {}
+}

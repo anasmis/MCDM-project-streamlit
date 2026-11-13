@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "title": "Location planning",
+  "description": "",
+  "mode": "Crisp",
+  "alternatives": [
+    "North",
+    "Central",
+    "South",
+    "West"
+  ],
+  "criteria": [
+    {
+      "name": "Rent",
+      "direction": "Cost",
+      "weight": 1.0,
+      "unit": ""
+    },
+    {
+      "name": "Access",
+      "direction": "Benefit",
+      "weight": 1.0,
+      "unit": ""
+    },
+    {
+      "name": "Capacity",
+      "direction": "Benefit",
+      "weight": 1.0,
+      "unit": ""
+    }
+  ],
+  "values": [
+    [
+      "1200",
+      "8",
+      "180"
+    ],
+    [
+      "1700",
+      "9",
+      "220"
+    ],
+    [
+      "900",
+      "6",
+      "140"
+    ],
+    [
+      "1350",
+      "7",
+      "210"
+    ]
+  ],
+  "scale": {
+    "Very low": [
+      1,
+      1,
+      3
+    ],
+    "Low": [
+      1,
+      3,
+      5
+    ],
+    "Medium": [
+      3,
+      5,
+      7
+    ],
+    "High": [
+      5,
+      7,
+      9
+    ],
+    "Very high": [
+      7,
+      9,
+      9
+    ]
+  },
+  "settings": {}
+}
