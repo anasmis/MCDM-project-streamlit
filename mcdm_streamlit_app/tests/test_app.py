@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import pytest
@@ -124,7 +125,7 @@ def test_matrix_edits_survive_criterion_rename_and_schema_roundtrip():
 def test_weighting_settings_survive_switching_methods():
     app = AppTest.from_file(str(APP), default_timeout=30).run()
     choose(app, "Weighting method", "AHP")
-    pair_key = next(k for k in app.session_state.filtered_state if k.startswith("1_AHP"))
+    pair_key = "1_AHP" + json.dumps([c["name"] for c in example()["criteria"]])
     app.session_state[pair_key] = {
         "edited_rows": {0: {"Left / right": "3"}},
         "added_rows": [],
