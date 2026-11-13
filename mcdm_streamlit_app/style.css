@@ -1,0 +1,195 @@
+/* Light surfaces and explicit foregrounds stay paired, including in dark OS themes. */
+.stApp {
+    --dl-page: #f5f7fb;
+    --dl-surface: #ffffff;
+    --dl-sidebar: #eef2f7;
+    --dl-text: #172b4d;
+    --dl-muted: #475569;
+    --dl-accent: #1d4ed8;
+    --dl-line: #cbd5e1;
+    --dl-input-border: #64748b;
+    background: var(--dl-page);
+    color: var(--dl-text);
+    color-scheme: light;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    line-height: 1.6;
+}
+
+.stApp [data-testid="stHeader"] {
+    background: var(--dl-page);
+    color: var(--dl-text);
+}
+
+.stApp .block-container {
+    max-width: 1440px;
+    padding: 2.5rem 2.5rem 3.5rem;
+}
+
+.stApp :is(h1, h2, h3, h4, h5, h6) {
+    color: var(--dl-text);
+    font-weight: 650;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+}
+
+.stApp h1 { font-size: 2.2rem; }
+.stApp h2 { font-size: 1.6rem; }
+.stApp h3 { font-size: 1.2rem; }
+
+.stApp :is([data-testid="stMarkdownContainer"], [data-testid="stWidgetLabel"]) {
+    color: var(--dl-text);
+}
+
+.stApp [data-testid="stCaptionContainer"],
+.stApp [data-testid="stCaptionContainer"] p {
+    color: var(--dl-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    max-width: 95ch;
+}
+
+.stApp a { color: var(--dl-accent); text-underline-offset: 3px; }
+.stApp a:hover { text-decoration-thickness: 2px; }
+.stApp hr { border-color: var(--dl-line); margin: 1.25rem 0; }
+
+.stApp [data-testid="stSidebar"] {
+    background: var(--dl-sidebar);
+    color: var(--dl-text);
+    border-right: 1px solid var(--dl-line);
+}
+
+.stApp [data-testid="stSidebar"] h1 { font-size: 1.5rem; }
+.stApp [data-testid="stSidebarUserContent"] { padding: 1.5rem 1.25rem; }
+
+/* Larger click targets and distinct selected tabs support long analysis sessions. */
+.stApp [data-baseweb="tab-list"] {
+    gap: 0.25rem;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--dl-line);
+    padding: 0.35rem 0 0.1rem;
+    scrollbar-width: thin;
+}
+
+.stApp [data-baseweb="tab"] {
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    border-radius: 6px 6px 0 0;
+    background: transparent;
+    color: var(--dl-muted);
+    font-weight: 550;
+    white-space: nowrap;
+}
+
+.stApp [data-baseweb="tab"]:hover { background: #e8eef9; color: #172b4d; }
+.stApp [data-baseweb="tab"][aria-selected="true"] {
+    background: #e8eef9;
+    color: #1e40af;
+    font-weight: 700;
+}
+.stApp [data-baseweb="tab-highlight"] { background: var(--dl-accent); height: 3px; }
+
+/* Inputs, selected values and placeholders all have their own readable foreground. */
+.stApp :is([data-baseweb="input"], [data-baseweb="textarea"], [data-baseweb="select"] > div) {
+    background: var(--dl-surface);
+    color: var(--dl-text);
+    border-color: var(--dl-input-border);
+    border-radius: 7px;
+}
+
+.stApp :is([data-baseweb="input"], [data-baseweb="select"] > div) { min-height: 44px; }
+.stApp :is(input, textarea, select) {
+    background: var(--dl-surface);
+    color: var(--dl-text);
+    caret-color: var(--dl-accent);
+    font-size: 1rem;
+}
+.stApp :is(input, textarea)::placeholder { color: var(--dl-muted); opacity: 1; }
+.stApp [data-baseweb="select"] { color: var(--dl-text); }
+.stApp [data-baseweb="tag"] { background: #dbeafe; color: #1e3a8a; }
+.stApp [data-testid="stFileUploaderDropzone"] {
+    background: var(--dl-surface);
+    color: var(--dl-text);
+    border: 1px dashed var(--dl-input-border);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.stApp :is([data-testid="stButton"], [data-testid="stDownloadButton"], [data-testid="stFileUploader"]) button {
+    min-height: 44px;
+    padding: 0.6rem 1rem;
+    border-radius: 7px;
+    border: 1px solid #64748b;
+    background: var(--dl-surface);
+    color: var(--dl-text);
+    font-weight: 600;
+}
+.stApp :is([data-testid="stButton"], [data-testid="stDownloadButton"], [data-testid="stFileUploader"]) button:hover:not(:disabled) {
+    background: #e8eef9;
+    color: #1e40af;
+    border-color: #1d4ed8;
+}
+.stApp :is([data-testid="stButton"], [data-testid="stDownloadButton"]) button[kind="primary"] {
+    background: #1d4ed8; color: #ffffff; border-color: #1d4ed8;
+}
+.stApp :is([data-testid="stButton"], [data-testid="stDownloadButton"]) button[kind="primary"]:hover:not(:disabled) {
+    background: #1e40af; color: #ffffff;
+}
+.stApp button:disabled {
+    background: #e2e8f0 !important;
+    color: #475569 !important;
+    border-color: #94a3b8 !important;
+    opacity: 1;
+    cursor: not-allowed;
+}
+
+.stApp :is(button, a, input, textarea, [role="tab"], [role="radio"], [role="slider"]):focus-visible {
+    outline: 3px solid #1d4ed8 !important;
+    outline-offset: 3px;
+}
+.stApp :is([data-baseweb="input"], [data-baseweb="textarea"], [data-baseweb="select"] > div):focus-within {
+    border-color: #1d4ed8;
+    box-shadow: 0 0 0 2px #bfdbfe;
+}
+
+.stApp [data-testid="stMetric"] {
+    background: var(--dl-surface);
+    color: var(--dl-text);
+    border: 1px solid var(--dl-line);
+    border-radius: 9px;
+    padding: 1.15rem 1.25rem;
+}
+.stApp [data-testid="stMetricLabel"] { color: var(--dl-muted); }
+.stApp [data-testid="stMetricValue"] { color: var(--dl-text); font-variant-numeric: tabular-nums; }
+.stApp [data-testid="stDataFrame"] {
+    background: var(--dl-surface);
+    border: 1px solid var(--dl-input-border);
+    border-radius: 7px;
+    overflow: hidden;
+}
+.stApp [data-testid="stExpander"] details {
+    background: var(--dl-surface);
+    color: var(--dl-text);
+    border: 1px solid var(--dl-line);
+    border-radius: 7px;
+}
+.stApp [data-testid="stExpander"] summary { min-height: 44px; color: var(--dl-text); }
+.stApp :is(code, pre) { background: #e8eef5; color: #172b4d; }
+
+/* Streamlit alert backgrounds and their text remain a matched pair. */
+.stApp [data-testid="stAlertContainer"] { border-radius: 7px; line-height: 1.6; }
+.stApp [data-testid="stAlertContainer"] [data-testid="stMarkdownContainer"] { color: inherit; }
+
+@media (max-width: 768px) {
+    .stApp .block-container { padding: 1.5rem 1rem 2rem; }
+    .stApp h1 { font-size: 1.8rem; }
+    .stApp [data-baseweb="tab"] { padding: 0.65rem 0.8rem; }
+    .stApp [data-testid="stMetric"] { padding: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stApp *, .stApp *::before, .stApp *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

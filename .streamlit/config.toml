@@ -1,14 +1,22 @@
 [theme]
 base = "light"
-primaryColor = "#22634B"
-backgroundColor = "#FAF9F6"
-secondaryBackgroundColor = "#F0F1EC"
-textColor = "#24342D"
+primaryColor = "#1d4ed8"
+backgroundColor = "#f5f7fb"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#172b4d"
 font = "sans serif"
+borderColor = "#64748b"
+dataframeBorderColor = "#cbd5e1"
+dataframeHeaderBackgroundColor = "#eef2f7"
+showWidgetBorder = true
+
+[theme.sidebar]
+backgroundColor = "#eef2f7"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#172b4d"
 
 [server]
 maxUploadSize = 5
 
 [browser]
 gatherUsageStats = false
-

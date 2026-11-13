@@ -4,6 +4,7 @@ import copy
 import io
 import json
 import zipfile
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -35,19 +36,31 @@ from decisionlab.project import (
     validate_project,
 )
 
-st.set_page_config(page_title="Decision Lab · MCDM", page_icon="⚖️", layout="wide")
-st.markdown(
-    """<style>
-    .stApp {background: #f7f9fc;}
-    .block-container {padding-top: 2rem; max-width: 1500px;}
-    h1, h2, h3 {color: #15304b;}
-    section[data-testid="stSidebar"] {background: #edf3f8;}
-    div[data-testid="stMetric"] {background: white; border: 1px solid #dde6ef;
-        border-radius: 12px; padding: 16px;}
-    .stTabs [data-baseweb="tab-list"] {gap: 12px;}
-</style>""",
-    unsafe_allow_html=True,
-)
+st.set_page_config(page_title="Decision Lab · MCDM", layout="wide")
+stylesheet = Path(__file__).with_name("style.css").read_text(encoding="utf-8")
+st.markdown(f"<style>{stylesheet}</style>", unsafe_allow_html=True)
+px.defaults.template = "plotly_white"
+px.defaults.color_discrete_sequence = [
+    "#1d4ed8",
+    "#047857",
+    "#a21caf",
+    "#b45309",
+    "#0e7490",
+    "#b91c1c",
+    "#6d28d9",
+    "#475569",
+]
+
+
+def display_chart(figure):
+    """Keep chart labels readable independently of the browser's theme."""
+    figure.update_layout(
+        paper_bgcolor="#ffffff",
+        plot_bgcolor="#ffffff",
+        font={"color": "#172b4d", "size": 14},
+        margin={"l": 24, "r": 24, "t": 40, "b": 24},
+    )
+    st.plotly_chart(figure, theme=None, width="stretch")
 
 
 def install_project(project):
@@ -76,7 +89,7 @@ def key(name):
 
 
 with st.sidebar:
-    st.title("⚖️ Decision Lab")
+    st.title("Decision Lab")
     st.caption("A workspace for multicriteria decisions")
     preset = st.selectbox(
         "Example or new problem",
@@ -499,14 +512,13 @@ with weight_tab:
             for j, endpoint in enumerate(["Lower", "Modal", "Upper"]):
                 weight_frame[endpoint] = fw[:, j]
         st.dataframe(weight_frame, hide_index=True, width="stretch")
-        st.plotly_chart(
+        display_chart(
             px.bar(
                 weight_frame,
                 x="Criterion",
                 y="Weight",
-                color_discrete_sequence=["#147d92"],
+                color_discrete_sequence=["#1d4ed8"],
             ),
-            width="stretch",
         )
     except (ValueError, TypeError, np.linalg.LinAlgError) as exc:
         st.error(str(exc))
@@ -621,7 +633,7 @@ with compare_tab:
         long = ranks.reset_index().melt(id_vars="Alternative", var_name="Method", value_name="Rank")
         fig = px.line(long, x="Method", y="Rank", color="Alternative", markers=True)
         fig.update_yaxes(autorange="reversed", dtick=1)
-        st.plotly_chart(fig, width="stretch")
+        display_chart(fig)
         if len(results) > 1:
             st.caption(
                 "Spearman rank correlation. A blank entry means correlation is undefined because all ranks are tied."
@@ -688,7 +700,7 @@ with sensitivity_tab:
                     sensitivity, x="Weight", y="Rank", color="Alternative", markers=True
                 )
                 chart.update_yaxes(autorange="reversed", dtick=1)
-                st.plotly_chart(chart, width="stretch")
+                display_chart(chart)
                 st.download_button(
                     "Download sensitivity CSV",
                     sensitivity.to_csv(index=False).encode(),
